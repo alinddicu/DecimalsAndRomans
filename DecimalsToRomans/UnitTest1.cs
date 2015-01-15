@@ -17,11 +17,16 @@
         public void GivenBaseDecimalsWhenConvertThenDecimalsConvertToRomans()
         {
             var conversionMap = _converter.ConversionMap;
-
             foreach(var dec in conversionMap.Keys)
             {
                 Check.That(_converter.Convert(dec)).Equals(conversionMap[dec]);
             }
+        }
+
+        [TestMethod]
+        public void WhenConvert2ThenReturnII()
+        {
+            Check.That(_converter.Convert(2)).Equals("II");
         }
     }
 }
