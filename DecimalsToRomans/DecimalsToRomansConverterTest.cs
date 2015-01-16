@@ -4,7 +4,7 @@
     using NFluent;
 
     [TestClass]
-    public class UnitTest1
+    public class DecimalsToRomansConverterTest
     {
         // I II III IV V VI VII VIII IX X
         // X XX XXX XL L LI LII LIII IL C
@@ -24,9 +24,9 @@
         }
 
         [TestMethod]
-        public void WhenConvert2ThenReturnII()
+        public void WhenConvert30ThenReturnXXX()
         {
-            Check.That(_converter.Convert(2)).Equals("II");
+            Check.That(_converter.Convert(30)).Equals("XXX");
         }
     }
 }

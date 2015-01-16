@@ -8,43 +8,50 @@ namespace DecimalsToRomans
 
     public class DecimalsToRomansConverter
     {
+        // I II III IV V VI VII VIII IX X
+        // X XX XXX XL L LI LII LIII IL C
+        // C CC CCC CD C DC DCC DCCC CM M
+        // M MM MMM
+
         public DecimalsToRomansConverter()
         {
             ConversionMap = new Dictionary<int, string>
             {
                 { 1, "I" }, 
-                { 4, "IV" }, 
+                // { 4, "IV" }, 
                 { 5, "V" }, 
-                { 9, "IX" },
+                // { 9, "IX" },
                 { 10, "X" },
-                { 40, "XL" },
+                // { 40, "XL" },
                 { 50, "L" },
-                { 90, "XC" },
+                // { 90, "XC" },
                 { 100, "C" },
-                { 400, "CL" },
+                // { 400, "CL" },
                 { 500, "L" },
-                { 900, "CM" },
+                // { 900, "CM" },
                 { 1000, "M" }
             };
         }
 
         public Dictionary<int, string> ConversionMap { get; private set; }
 
-        public string Convert(int dec)
+        public string Convert(int decimalInt)
         {
-            var roman = string.Empty;
-            if (ConversionMap.Keys.Contains(dec))
+            var romanInt = string.Empty;
+            if (ConversionMap.Keys.Contains(decimalInt))
             {
-                return ConversionMap[dec];
+                return ConversionMap[decimalInt];
             }
 
-            var superiorLimitDecimal = ConversionMap.Keys.First(k => dec > k);
-            if (dec % 4 != 0)
+            var lowerKey = ConversionMap.Keys.Last(k => k < decimalInt);
+            var nextSuperiorKey = ConversionMap.Keys.First(k => k > lowerKey);
+            var lowerKeyReducedRest = (decimalInt / lowerKey) % (nextSuperiorKey / lowerKey);
+            if (lowerKeyReducedRest != 0)
             {
-                return RepeatRoman(ConversionMap[superiorLimitDecimal], dec);
+                return RepeatRoman(ConversionMap[lowerKey], lowerKeyReducedRest);
             }
 
-            return roman;
+            return romanInt;
         }
 
         private string RepeatRoman(string roman, int times)
