@@ -18,9 +18,9 @@ namespace DecimalsToRomans
             ConversionMap = new Dictionary<int, string>
             {
                 { 1, "I" }, 
-                // { 4, "IV" }, 
+                //{ 4, "IV" }, 
                 { 5, "V" }, 
-                // { 9, "IX" },
+                //{ 9, "IX" },
                 { 10, "X" },
                 // { 40, "XL" },
                 { 50, "L" },
@@ -43,12 +43,19 @@ namespace DecimalsToRomans
                 return ConversionMap[decimalInt];
             }
 
-            var lowerKey = ConversionMap.Keys.Last(k => k < decimalInt);
-            var nextSuperiorKey = ConversionMap.Keys.First(k => k > lowerKey);
-            var lowerKeyReducedRest = (decimalInt / lowerKey) % (nextSuperiorKey / lowerKey);
-            if (lowerKeyReducedRest != 0)
+            var inferieurDecimal = ConversionMap.Keys.Last(k => k <= decimalInt);
+            var superiorDecimal = ConversionMap.Keys.First(k => k > inferieurDecimal);
+            var lowerDecimalReducedRest = (decimalInt % superiorDecimal) / inferieurDecimal;
+
+            var decimalIntReducedTo1Digit = ReduceIntTo1Digit(decimalInt);
+            if (lowerDecimalReducedRest != 0 && decimalIntReducedTo1Digit < 4)
             {
-                return RepeatRoman(ConversionMap[lowerKey], lowerKeyReducedRest);
+                return ConversionMap[inferieurDecimal] + RepeatRoman(ConversionMap[inferieurDecimal], lowerDecimalReducedRest - 1);
+            }
+
+            if (lowerDecimalReducedRest != 0 && decimalIntReducedTo1Digit > 5)
+            {
+                return ConversionMap[inferieurDecimal] + RepeatRoman(ConversionMap[ConversionMap.Keys.Last(k => k < inferieurDecimal)], lowerDecimalReducedRest);
             }
 
             return romanInt;
@@ -63,6 +70,16 @@ namespace DecimalsToRomans
             }
 
             return repetition;
+        }
+
+        private int ReduceIntTo1Digit(int multipleOf10)
+        {
+            while (multipleOf10 / 10 > 0)
+            {
+                multipleOf10 = multipleOf10 / 10;
+            }
+
+            return multipleOf10;
         }
     }
 }
