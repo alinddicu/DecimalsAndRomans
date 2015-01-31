@@ -7,8 +7,6 @@ namespace RomansToDecimals
     [TestClass]
     public class ConverterTest
     {
-        private readonly static Converter Converter = new Converter();
-
         [TestMethod]
         public void WhenIThenReturn1()
         {
@@ -37,6 +35,24 @@ namespace RomansToDecimals
         public void WhenXIVThenReturn14()
         {
             Check.That(Converter.Convert("XIV")).IsEqualTo(14);
+        }
+
+        [TestMethod]
+        public void WhenXIVThenReturn16()
+        {
+            Check.That(Converter.Convert("XVI")).IsEqualTo(16);
+        }
+
+        [TestMethod]
+        public void WhenXIXThenReturn19()
+        {
+            Check.That(Converter.Convert("XIX")).IsEqualTo(19);
+        }
+
+        [TestMethod]
+        public void WhenConvertMMMXLVIThenReturn3046()
+        {
+            Check.That(Converter.Convert("MMMXLVI")).Equals(3046);
         }
     }
 }
